@@ -20,21 +20,36 @@ export default function MatchTable({ data }: MatchTableProps) {
                   <TableHead>Horodatage</TableHead>
                   <TableHead>Action</TableHead>
                   <TableHead>Réussite</TableHead> 
-                  <TableHead>Score</TableHead>
+                  
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data
-                  .filter((row) => row[0] === `${period}`) // Filter rows by period
-                  .map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{row[1]}</TableCell> {/* Time */}
-                      <TableCell>{row[2]}</TableCell>
-                      <TableCell>{row[3] === '1' ? '✔️' : '❌'}</TableCell> {/* Action */}
-                      <TableCell>{row[4]}</TableCell> {/* Score */}
-                    </TableRow>
-                  ))}
-              </TableBody>
+  {data
+    .filter((row) => row[0] === `${period}`) // Filtrer par période
+    .filter((row) => row[2] !== 'substitution') // Ne pas afficher les substitutions
+    .map((row, index) => {
+      const action = row[2].toLowerCase();
+      const success = row[3] === '1';
+
+      // Définir ✔️ ou ❌ en fonction de l'action et de la réussite
+      let status = success ? '✔️' : '❌';
+
+      // Actions qui sont négatives quand "réussies"
+      if (['turnover', 'foul'].includes(action)) {
+        status = success ? '❌' : '✔️';
+      }
+
+      return (
+        <TableRow key={index}>
+          <TableCell>{row[1]}</TableCell> {/* Horodatage */}
+          <TableCell>{row[2]}</TableCell> {/* Action */}
+          <TableCell>{status}</TableCell> {/* Succès/Négatif adapté */}
+         
+        </TableRow>
+      );
+    })}
+</TableBody>
+
             </Table>
           </CardContent>
         </Card>
