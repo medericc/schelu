@@ -6,7 +6,18 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@
 interface MatchTableProps {
   data: string[][]; // CSV data passed as a prop
 }
-
+const actionMapping: Record<string, string> = {
+  'foulon': 'Foul On',
+  'rebound': 'Rebound',
+  'assist': 'Assist',
+  '2pt': 'Tir à 2',
+  'turnover': 'Turnover',
+  '3pt': 'Tir à 3',
+  'steal': 'Steal',
+  'block': 'Block',
+  'foul': 'Foul',
+  '1pt': 'Lancer-Franc',
+};
 export default function MatchTable({ data }: MatchTableProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 w-full">
@@ -17,7 +28,7 @@ export default function MatchTable({ data }: MatchTableProps) {
           <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Horodatage</TableHead>
+                  <TableHead>Chrono</TableHead>
                   <TableHead>Action</TableHead>
                   <TableHead>Réussite</TableHead> 
                   
@@ -31,10 +42,13 @@ export default function MatchTable({ data }: MatchTableProps) {
       const action = row[2].toLowerCase();
       const success = row[3] === '1';
 
+      // Renommer l'action si elle est dans le mapping
+      const displayAction = actionMapping[action] || row[2];
+
       // Définir ✔️ ou ❌ en fonction de l'action et de la réussite
       let status = success ? '✔️' : '❌';
 
-      // Actions qui sont négatives quand "réussies"
+      // Actions négatives quand "réussies"
       if (['turnover', 'foul'].includes(action)) {
         status = success ? '❌' : '✔️';
       }
@@ -42,9 +56,9 @@ export default function MatchTable({ data }: MatchTableProps) {
       return (
         <TableRow key={index}>
           <TableCell>{row[1]}</TableCell> {/* Horodatage */}
-          <TableCell>{row[2]}</TableCell> {/* Action */}
+          <TableCell>{displayAction}</TableCell> {/* Action renommée */}
           <TableCell>{status}</TableCell> {/* Succès/Négatif adapté */}
-         
+        
         </TableRow>
       );
     })}
