@@ -26,11 +26,17 @@ export default function Home() {
     const [selectedLink, setSelectedLink] = useState<string>(''); // État pour le lien sélectionné
     const [customUrl, setCustomUrl] = useState(''); // État pour l'URL personnalisée
 
-    const preSavedLinks = [
-        { name: "Match 1", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513395/bs.html" },
-        { name: "Match 2", url: "https://example.com/match2" },
-        { name: "Match 3", url: "https://example.com/match3" }
-    ];
+    const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
+        "L. JEROME": [
+            { name: "Match 1", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513395/bs.html" },
+            { name: "Match 2", url: "https://example.com/lucile2" },
+        ],
+        "C. LEITE": [
+            { name: "Match 1", url: "https://example.com/carla1" },
+            { name: "Match 2", url: "https://example.com/carla2" },
+        ]
+    };
+    
     const playerMapping: Record<string, string> = {
         "Lucile": "L. JEROME",
         "Carla": "C. LEITE"
@@ -117,19 +123,20 @@ export default function Home() {
     ))}
 </select>
 
-                {/* Menu déroulant pour les liens préenregistrés */}
-                <select 
-                    value={selectedLink} 
-                    onChange={(e) => setSelectedLink(e.target.value)} 
-                    className="mb-4 p-2 border rounded"
-                >
-                    <option value="">Sélectionne le Match</option>
-                    {preSavedLinks.map((link) => (
-                        <option key={link.url} value={link.url}>
-                            {link.name}
-                        </option>
-                    ))}
-                </select>
+              {/* Menu déroulant pour les liens spécifiques à la joueuse sélectionnée */}
+<select 
+    value={selectedLink} 
+    onChange={(e) => setSelectedLink(e.target.value)} 
+    className="mb-4 p-2 border rounded"
+>
+    <option value="">Sélectionne un match</option>
+    {matchLinksByPlayer[selectedPlayer]?.map((link) => (
+        <option key={link.url} value={link.url}>
+            {link.name}
+        </option>
+    ))}
+</select>
+
 
                 {/* Champ de saisie du lien personnalisé */}
                 <InputForm 
