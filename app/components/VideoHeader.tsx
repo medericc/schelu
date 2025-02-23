@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function VideoHeader({ className = "" }: { className?: string }) {
   const [activeVideo, setActiveVideo] = useState(0);
-  const videos = ["/video.mp4", "/video2.mp4"];
+  const videos = ["/video.webm", "/video2.webm"];
 
   useEffect(() => {
     const interval = setInterval(() => {
