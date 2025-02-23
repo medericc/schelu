@@ -148,7 +148,7 @@ export default function Home() {
             value={customUrl} 
             onChange={(e) => setCustomUrl(e.target.value)} 
             onGenerate={handleGenerate} 
-            className="w-full"
+            
           />
       
           {/* Table des stats */}
