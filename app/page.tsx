@@ -42,7 +42,7 @@ export default function Home() {
         ],
         "C. LEITE": [
             { name: "Charnay", url: "" },
-            // { name: "Match 2", url: "https://example.com/carla2" },
+            // { name: "Match 2", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513244/bs.html" },
         ]
     };
     
