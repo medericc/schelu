@@ -30,9 +30,9 @@ export default function MatchTable({ data }: MatchTableProps) {
             <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center">Chrono</TableHead>
-                  <TableHead className="text-center">Action</TableHead>
-                  <TableHead className="text-center">Réussite</TableHead>
+                  <TableHead className="text-center font-bold">Chrono</TableHead>
+                  <TableHead className="text-center font-bold">Action</TableHead>
+                  <TableHead className="text-center font-bold">Réussite</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

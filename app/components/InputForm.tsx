@@ -1,8 +1,7 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
+import { Input } from '@/components/ui/input';
 export default function InputForm({
   value,
   onChange,
@@ -20,7 +19,12 @@ export default function InputForm({
         value={value}
         onChange={onChange}
       /> */}
-      <Button onClick={onGenerate}>VOIR STATS</Button>
+      <Button 
+        onClick={onGenerate} 
+        className="bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-700 transition-colors w-full"
+      >
+        VOIR STATS
+      </Button>
     </div>
   );
 }

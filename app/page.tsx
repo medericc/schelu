@@ -4,7 +4,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import InputForm from './components/InputForm';
 import MatchTable from './components/MatchTable';
-
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from '@/components/ui/select';
 interface MatchAction {
     period: string;
     gt: string; // Game time
@@ -104,56 +110,56 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-10 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-            <header className="flex flex-col items-center gap-4">
-                <Image src="/next.svg" alt="Next.js logo" width={150} height={30} priority />
-                <h1 className="text-xl font-semibold">Live Basketball Stats</h1>
-            </header>
+    <header className="flex flex-col items-center gap-4">
+        <Image src="/next.svg" alt="Next.js logo" width={150} height={30} priority />
+        <h1 className="text-xl font-semibold">Stats Par Minutes</h1>
+    </header>
 
-            <main className="flex flex-col items-center gap-6 w-full max-w-lg">
-                {/* Menu déroulant pour sélectionner un joueur */}
-                <select 
-    value={selectedPlayer} 
-    onChange={(e) => setSelectedPlayer(playerMapping[e.target.value] || e.target.value)} 
-    className="mb-4 p-2 border rounded"
->
+    <main className="flex flex-col items-center gap-6 w-full max-w-lg">
+        {/* Menu déroulant pour sélectionner un joueur */}
+        <Select value={selectedPlayer} onValueChange={setSelectedPlayer}>
+  <SelectTrigger className="w-full">
+    <SelectValue placeholder="Sélectionne une joueuse" />
+  </SelectTrigger>
+  <SelectContent>
     {Object.entries(playerMapping).map(([displayName, realName]) => (
-        <option key={realName} value={realName}>
-            {displayName}
-        </option>
+      <SelectItem key={realName} value={realName}>
+        {displayName}
+      </SelectItem>
     ))}
-</select>
+  </SelectContent>
+</Select>
 
-              {/* Menu déroulant pour les liens spécifiques à la joueuse sélectionnée */}
-<select 
-    value={selectedLink} 
-    onChange={(e) => setSelectedLink(e.target.value)} 
-    className="mb-4 p-2 border rounded"
->
-    <option value="">Sélectionne un match</option>
+        {/* Menu déroulant pour les liens spécifiques à la joueuse sélectionnée */}
+        <Select value={selectedLink} onValueChange={setSelectedLink}>
+  <SelectTrigger className="w-full">
+    <SelectValue placeholder="Sélectionne un match" />
+  </SelectTrigger>
+  <SelectContent>
     {matchLinksByPlayer[selectedPlayer]?.map((link) => (
-        <option key={link.url} value={link.url}>
-            {link.name}
-        </option>
+      <SelectItem key={link.url} value={link.url}>
+        {link.name}
+      </SelectItem>
     ))}
-</select>
+  </SelectContent>
+</Select>
 
+        {/* Champ de saisie du lien personnalisé */}
+        <InputForm 
+            value={customUrl} 
+            onChange={(e) => setCustomUrl(e.target.value)} 
+            onGenerate={handleGenerate} 
+        />
 
-                {/* Champ de saisie du lien personnalisé */}
-                <InputForm 
-                    value={customUrl} 
-                    onChange={(e) => setCustomUrl(e.target.value)} 
-                    onGenerate={handleGenerate} 
-                />
+        {/* Affichage du tableau si le CSV est généré */}
+        {csvGenerated && <MatchTable data={csvData} />}
+    </main>
 
-                {/* Affichage du tableau si le CSV est généré */}
-                {csvGenerated && <MatchTable data={csvData} />}
-            </main>
-
-            <footer className="text-sm text-gray-500">
-                <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    Powered by Next.js
-                </a>
-            </footer>
-        </div>
+    <footer className="text-sm text-gray-900">
+        <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
+            Produit par @fan_lucilej
+        </a>
+    </footer>
+</div>
     );
 }
