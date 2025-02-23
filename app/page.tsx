@@ -111,54 +111,63 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-  <VideoHeader className="absolute top-0 left-0 w-full" />
-
-
-    <main className="flex flex-col items-center gap-6 w-full max-w-lg">
-        {/* Menu déroulant pour sélectionner un joueur */}
-        <Select value={selectedPlayer} onValueChange={setSelectedPlayer}>
-  <SelectTrigger className="w-full">
-    <SelectValue placeholder="Sélectionne une joueuse" />
-  </SelectTrigger>
-  <SelectContent>
-    {Object.entries(playerMapping).map(([displayName, realName]) => (
-      <SelectItem key={realName} value={realName}>
-        {displayName}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
-
-        {/* Menu déroulant pour les liens spécifiques à la joueuse sélectionnée */}
-        <Select value={selectedLink} onValueChange={setSelectedLink}>
-  <SelectTrigger className="w-full">
-    <SelectValue placeholder="Sélectionne un match" />
-  </SelectTrigger>
-  <SelectContent>
-    {matchLinksByPlayer[selectedPlayer]?.map((link) => (
-      <SelectItem key={link.url} value={link.url}>
-        {link.name}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
-
-        {/* Champ de saisie du lien personnalisé */}
-        <InputForm 
+        <VideoHeader className="absolute top-0 left-0 w-full" />
+      
+        <main className="flex flex-col items-center gap-6 w-full max-w-lg sm:max-w-2xl md:max-w-4xl">
+          {/* Menus déroulants */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <Select value={selectedPlayer} onValueChange={setSelectedPlayer}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Sélectionne une joueuse" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(playerMapping).map(([displayName, realName]) => (
+                  <SelectItem key={realName} value={realName}>
+                    {displayName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+      
+            <Select value={selectedLink} onValueChange={setSelectedLink}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Sélectionne un match" />
+              </SelectTrigger>
+              <SelectContent>
+                {matchLinksByPlayer[selectedPlayer]?.map((link) => (
+                  <SelectItem key={link.url} value={link.url}>
+                    {link.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+      
+          {/* Champ de saisie du lien personnalisé */}
+          <InputForm 
             value={customUrl} 
             onChange={(e) => setCustomUrl(e.target.value)} 
             onGenerate={handleGenerate} 
-        />
-
-        {/* Affichage du tableau si le CSV est généré */}
-        {csvGenerated && <MatchTable data={csvData} />}
-    </main>
-
-    <footer className="text-sm text-gray-900">
-        <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
+            className="w-full"
+          />
+      
+          {/* Table des stats */}
+          {csvGenerated && (
+            <div className="w-full overflow-x-auto">
+              <MatchTable data={csvData} />
+            </div>
+          )}
+        </main>
+      
+       
+      
+        <footer className="text-sm text-gray-900 mt-8">
+          <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
             Produit par @fan_lucilej
-        </a>
-    </footer>
-</div>
+          </a>
+        </footer>
+      </div>
+      
+
     );
 }

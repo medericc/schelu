@@ -28,7 +28,7 @@ export default function VideoHeader({ className = "" }: { className?: string }) 
           />
         ))}
       </div>
-      <h1 className="text-2xl font-extrabold text-center mt-8 ">
+      <h1 className="text-[1.6rem] font-extrabold text-center mt-8 ">
   STATS PAR MINUTES
 </h1>
     </header>
