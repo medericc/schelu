@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import VideoHeader from './components/VideoHeader';
 import InputForm from './components/InputForm';
 import MatchTable from './components/MatchTable';
 import {
@@ -109,11 +110,9 @@ export default function Home() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-10 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-    <header className="flex flex-col items-center gap-4">
-        <Image src="/next.svg" alt="Next.js logo" width={150} height={30} priority />
-        <h1 className="text-xl font-semibold">Stats Par Minutes</h1>
-    </header>
+        <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+  <VideoHeader className="absolute top-0 left-0 w-full" />
+
 
     <main className="flex flex-col items-center gap-6 w-full max-w-lg">
         {/* Menu déroulant pour sélectionner un joueur */}
