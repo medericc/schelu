@@ -1,5 +1,5 @@
 'use client';
-
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useState } from 'react';
 import Image from 'next/image';
 import VideoHeader from './components/VideoHeader';
@@ -32,14 +32,16 @@ export default function Home() {
     const [selectedPlayer, setSelectedPlayer] = useState<string>("L. JEROME"); // État pour le joueur sélectionné
     const [selectedLink, setSelectedLink] = useState<string>(''); // État pour le lien sélectionné
     const [customUrl, setCustomUrl] = useState(''); // État pour l'URL personnalisée
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+  
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
         "L. JEROME": [
             { name: "Toulouse", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513395/bs.html" },
             // { name: "Match 2", url: "https://example.com/lucile2" },
         ],
         "C. LEITE": [
-            { name: "Charnay", url: "https://example.com/carla1" },
+            { name: "Charnay", url: "" },
             // { name: "Match 2", url: "https://example.com/carla2" },
         ]
     };
@@ -53,9 +55,10 @@ export default function Home() {
         const url = selectedLink || customUrl;
     
         if (!url) {
-            alert("Veuillez entrer un lien ou sélectionner un match.");
+            setModalMessage("Sélectionne un Match 😎");
+            setIsModalOpen(true);
             return;
-        }
+          }
     
         try {
             const jsonUrl = url
@@ -159,7 +162,16 @@ export default function Home() {
           )}
         </main>
       
-       
+        {/* Modale d'erreur */}
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+  <DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
+    <DialogHeader>
+      <DialogTitle className="text-center mb-4">⚠️ Erreur</DialogTitle>
+      <DialogDescription className="text-center mt-4">{modalMessage}</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
       
         <footer className="text-sm text-gray-900 mt-8">
           <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
