@@ -6,6 +6,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@
 interface MatchTableProps {
   data: string[][]; // CSV data passed as a prop
 }
+
 const actionMapping: Record<string, string> = {
   'foulon': 'Foul On',
   'rebound': 'Rebound',
@@ -18,52 +19,47 @@ const actionMapping: Record<string, string> = {
   'foul': 'Foul',
   '1pt': 'Lancer-Franc',
 };
+
 export default function MatchTable({ data }: MatchTableProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 w-full">
       {[1, 2, 3, 4].map((period) => (
         <Card key={period}>
           <CardContent>
-          <h3 className="text-lg font-bold text-center mt-3 mb-3">PÉRIODE {period}</h3>
-          <Table>
+            <h3 className="text-lg font-bold text-center mt-6 mb-3">PÉRIODE {period}</h3>
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Chrono</TableHead>
-                  <TableHead>Action</TableHead>
-                  <TableHead>Réussite</TableHead> 
-                  
+                  <TableHead className="text-center">Chrono</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
+                  <TableHead className="text-center">Réussite</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-  {data
-    .filter((row) => row[0] === `${period}`) // Filtrer par période
-    .filter((row) => row[2] !== 'substitution') // Ne pas afficher les substitutions
-    .map((row, index) => {
-      const action = row[2].toLowerCase();
-      const success = row[3] === '1';
-
-      // Renommer l'action si elle est dans le mapping
-      const displayAction = actionMapping[action] || row[2];
-
-      // Définir ✔️ ou ❌ en fonction de l'action et de la réussite
-      let status = success ? '✔️' : '❌';
-
-      // Actions négatives quand "réussies"
-      if (['turnover', 'foul'].includes(action)) {
-        status = success ? '❌' : '✔️';
-      }
-
-      return (
-        <TableRow key={index}>
-          <TableCell>{row[1]}</TableCell> {/* Horodatage */}
-          <TableCell>{displayAction}</TableCell> {/* Action renommée */}
-          <TableCell>{status}</TableCell> {/* Succès/Négatif adapté */}
-        
-        </TableRow>
-      );
-    })}
-</TableBody>
-
+                {data
+                  .filter((row) => row[0] === `${period}`)
+                  .filter((row) => row[2] !== 'substitution')
+                  .map((row, index) => {
+                    const action = row[2].toLowerCase();
+                    const success = row[3] === '1';
+                    const displayAction = actionMapping[action] || row[2];
+                    let status = success ? '✔️' : '❌';
+                    if (['turnover', 'foul'].includes(action)) {
+                      status = success ? '❌' : '✔️';
+                    }
+                    return (
+                      <TableRow key={index}>
+                        <TableCell className="text-center">{row[1]}</TableCell>
+                        <TableCell className="text-center">{displayAction}</TableCell>
+                        <TableCell className="text-center">
+                          <span className={status === '✔️' ? 'text-green-500' : 'text-red-500'}>
+                            {status}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
             </Table>
           </CardContent>
         </Card>
