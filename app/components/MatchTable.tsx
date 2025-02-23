@@ -13,12 +13,13 @@ export default function MatchTable({ data }: MatchTableProps) {
       {[1, 2, 3, 4].map((period) => (
         <Card key={period}>
           <CardContent>
-            <h3 className="text-lg font-bold mb-2">Période {period}</h3>
-            <Table>
+          <h3 className="text-lg font-bold text-center mt-3 mb-3">PÉRIODE {period}</h3>
+          <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Horodatage</TableHead>
                   <TableHead>Action</TableHead>
+                  <TableHead>Réussite</TableHead> 
                   <TableHead>Score</TableHead>
                 </TableRow>
               </TableHeader>
@@ -28,7 +29,8 @@ export default function MatchTable({ data }: MatchTableProps) {
                   .map((row, index) => (
                     <TableRow key={index}>
                       <TableCell>{row[1]}</TableCell> {/* Time */}
-                      <TableCell>{row[2]}</TableCell> {/* Action */}
+                      <TableCell>{row[2]}</TableCell>
+                      <TableCell>{row[3] === '1' ? '✔️' : '❌'}</TableCell> {/* Action */}
                       <TableCell>{row[4]}</TableCell> {/* Score */}
                     </TableRow>
                   ))}
