@@ -1,21 +1,26 @@
 'use client';
 
-import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function InputForm({ onGenerate }: { onGenerate: (url: string) => void }) {
-  const [url, setUrl] = useState('');
-
+export default function InputForm({
+  value,
+  onChange,
+  onGenerate,
+}: {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onGenerate: () => void;
+}) {
   return (
     <div className="flex flex-col items-center gap-4 w-full max-w-md">
-      <Input
+      {/* <Input
         type="text"
-        placeholder="Entrez le lien du match"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <Button onClick={() => onGenerate(url)}>Générer CSV</Button>
+        placeholder="Entrez le lien du match (ou laissez vide)"
+        value={value}
+        onChange={onChange}
+      /> */}
+      <Button onClick={onGenerate}>VOIR STATS</Button>
     </div>
   );
 }
