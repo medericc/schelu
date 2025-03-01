@@ -34,7 +34,8 @@ export default function Home() {
     const [customUrl, setCustomUrl] = useState(''); // État pour l'URL personnalisée
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
-  
+    const [isWaitingModalOpen, setIsWaitingModalOpen] = useState(false);
+
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
         "L. JEROME": [
             { name: "Aulnoye", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513405/bs.html" },
@@ -76,7 +77,8 @@ export default function Home() {
     
             if (!response.ok) {
                 console.error("Erreur de récupération :", response.status, await response.text());
-                alert('Données introuvables');
+                setModalMessage(`Patiente, ${selectedPlayer === "L. JEROME" ? "Lucile" : "Carla"} s'échauffe 🏀`);
+                setIsWaitingModalOpen(true);
                 return;
             }
     
@@ -175,7 +177,15 @@ export default function Home() {
   </DialogContent>
 </Dialog>
 
-      
+<Dialog open={isWaitingModalOpen} onOpenChange={setIsWaitingModalOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle  className="flex items-center justify-center gap-2 mb-2">⏳ En attente</DialogTitle>
+                        <DialogDescription className="text-center mt-2"   >{modalMessage}</DialogDescription>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
+            
         <footer className="text-sm text-gray-900 mt-8">
           <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
             Produit par @fan_lucilej
