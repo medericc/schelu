@@ -178,7 +178,7 @@ export default function Home() {
 </Dialog>
 
 <Dialog open={isWaitingModalOpen} onOpenChange={setIsWaitingModalOpen}>
-                <DialogContent>
+<DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
                     <DialogHeader>
                         <DialogTitle  className="flex items-center justify-center gap-2 mb-2">⏳ En attente</DialogTitle>
                         <DialogDescription className="text-center mt-2"   >{modalMessage}</DialogDescription>
