@@ -77,7 +77,7 @@ export default function Home() {
     
             if (!response.ok) {
                 console.error("Erreur de récupération :", response.status, await response.text());
-                setModalMessage(`Patiente, ${selectedPlayer === "L. JEROME" ? "Lucile" : "Carla"} s'échauffe 🏀`);
+                setModalMessage(`${selectedPlayer === "L. JEROME" ? "Lucile" : "Carla"} s'échauffe 🏀`);
                 setIsWaitingModalOpen(true);
                 return;
             }
@@ -180,7 +180,7 @@ export default function Home() {
 <Dialog open={isWaitingModalOpen} onOpenChange={setIsWaitingModalOpen}>
 <DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
                     <DialogHeader>
-                        <DialogTitle  className="flex items-center justify-center gap-2 mb-2">⏳ En attente</DialogTitle>
+                        <DialogTitle  className="flex items-center justify-center gap-2 mb-2">⏳ Patiente</DialogTitle>
                         <DialogDescription className="text-center mt-2"   >{modalMessage}</DialogDescription>
                     </DialogHeader>
                 </DialogContent>
