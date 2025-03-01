@@ -37,7 +37,9 @@ export default function Home() {
   
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
         "L. JEROME": [
+            { name: "Aulnoye", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513405/bs.html" },
             { name: "Toulouse", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513395/bs.html" },
+
             // { name: "Match 2", url: "https://example.com/lucile2" },
         ],
         "C. LEITE": [
@@ -45,7 +47,7 @@ export default function Home() {
             { name: "Charnay", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513238/bs.html" },
             // { name: "Match 2", url: "https://example.com/carla2" },
         ]
-    };
+    }; 
     
     const playerMapping: Record<string, string> = {
         "Lucile": "L. JEROME",
