@@ -46,6 +46,7 @@ export default function Home() {
         ],
         "C. LEITE": [
 
+            { name: "Roche Vendée", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513252/bs.html" },
             { name: "Charnay", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513238/bs.html" },
             // { name: "Match 2", url: "https://example.com/carla2" },
         ]
