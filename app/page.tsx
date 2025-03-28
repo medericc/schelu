@@ -39,7 +39,7 @@ export default function Home() {
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
         "L. JEROME": [  
         
-
+  { name: "Nice", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513452/bs.html" },
           { name: "Montbrison", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513433/bs.html" },
           { name: "Le Havre", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513442/bs.html" },
           { name: "Feytiat", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513421/bs.html" },
