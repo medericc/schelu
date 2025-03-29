@@ -39,8 +39,7 @@ export default function Home() {
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
         "L. JEROME": [  
         
-  { name: "Nice", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513452/bs.html" },
-          { name: "Montbrison", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513433/bs.html" },
+         { name: "Montbrison", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513433/bs.html" },
           { name: "Le Havre", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513442/bs.html" },
           { name: "Feytiat", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513421/bs.html" },
             { name: "Aulnoye", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513405/bs.html" },
@@ -49,6 +48,11 @@ export default function Home() {
             // { name: "Match 2", url: "https://example.com/lucile2" },
         ],
         "C. LEITE": [
+
+
+          { name: "Chartres", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513288/bs.html" },
+          
+
           { name: "Basket Landes", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513275/bs.html" },
             { name: "Roche Vendée", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513252/bs.html" },
             { name: "Charnay", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513238/bs.html" },
