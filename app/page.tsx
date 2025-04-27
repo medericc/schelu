@@ -37,7 +37,8 @@ export default function Home() {
     const [isWaitingModalOpen, setIsWaitingModalOpen] = useState(false);
 
     const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
-        "L. JEROME": [   
+        "L. JEROME": [  
+          { name: "Toulouse", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2653903/bs.html" }, 
           { name: "Feytiat 3", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2648652/bs.html" },
          
           { name: "Feytiat 2", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2648648/bs.html" },
