@@ -48,11 +48,13 @@ export default function PhoenixSchedulePage() {
             weekday: 'long',
             day: 'numeric',
             month: 'long',
+            timeZone: 'Africa/Lagos',
           }).toUpperCase(),
         
           hourLabel: date.toLocaleTimeString('en-NG', {
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: 'Africa/Lagos',
           }),
         
           opponent: opponentTeam.displayName,
@@ -95,13 +97,20 @@ export default function PhoenixSchedulePage() {
  {/* Encadré droit : drapeau + heure */}
 <div className="flex flex-col items-center justify-between border rounded-lg px-2 py-2 w-17 h-17 shadow-sm">
   {/* Drapeau seulement si on n'affiche pas l'heure locale */}
-  {!showLocalTimes[match.id] && (
-    <img
-      src="https://flagcdn.com/w40/ng.png"
-      alt="NG"
-      className="w-5 h-4 mb-2"
-    />
-  )}
+  {!showLocalTimes[match.id] ? (
+  <img
+    src="https://flagcdn.com/w40/ng.png"
+    alt="NG"
+    className="w-5 h-4 mb-2"
+  />
+) : (
+  <img
+    src={`https://flagcdn.com/w40/${Intl.DateTimeFormat().resolvedOptions().locale.split('-')[1]?.toLowerCase() || 'us'}.png`}
+    alt="Local"
+    className="w-5 h-4 mb-2"
+  />
+)}
+
   <div
     className="flex items-center gap-1 text-gray-600 text-sm cursor-pointer"
     onClick={() =>
