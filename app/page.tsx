@@ -1,216 +1,110 @@
 'use client';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useState } from 'react';
-import Image from 'next/image';
-import VideoHeader from './components/VideoHeader';
-import InputForm from './components/InputForm';
-import MatchTable from './components/MatchTable';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from '@/components/ui/select';
-interface MatchAction {
-    period: string;
-    gt: string; // Game time
-    actionType: string;
-    success: boolean;
-    s1: string; // Score team 1
-    s2: string; // Score team 2
-    player: string; // Nom du joueur
-}
 
-interface MatchData {
-    pbp: MatchAction[]; // Play-by-play data
-}
+import { useEffect, useState } from 'react';
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Clock } from "lucide-react";
+type Match = {
+  id: string;
+  dayLabel: string;
+  hourLabel: string;
+  opponent: string;
+  opponentLogo: string;
+};
 
-export default function Home() {
-    const [csvGenerated, setCsvGenerated] = useState(false);
-    const [csvData, setCsvData] = useState<string[][]>([]);
-    const [selectedPlayer, setSelectedPlayer] = useState<string>("L. JEROME"); // État pour le joueur sélectionné
-    const [selectedLink, setSelectedLink] = useState<string>(''); // État pour le lien sélectionné
-    const [customUrl, setCustomUrl] = useState(''); // État pour l'URL personnalisée
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
-    const [isWaitingModalOpen, setIsWaitingModalOpen] = useState(false);
 
-    const matchLinksByPlayer: Record<string, { name: string; url: string }[]> = {
-        "L. JEROME": [  
-          { name: "Toulouse", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2653903/bs.html" }, 
-          { name: "Feytiat 3", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2648652/bs.html" },
-         
-          { name: "Feytiat 2", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2648648/bs.html" },
-          { name: "Feytiat", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2648644/bs.html" },
-       
-          { name: "Saint Amand", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513466/bs.html" },
-       
-         { name: "Montbrison", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513433/bs.html" },
-          { name: "Le Havre", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513442/bs.html" },
-          { name: "Feytiat", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513421/bs.html" },
-            { name: "Aulnoye", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513405/bs.html" },
-            { name: "Toulouse", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513395/bs.html" },
+export default function ValkyriesSchedulePage() {
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [loading, setLoading] = useState(true);
 
-            // { name: "Match 2", url: "https://example.com/lucile2" },
-        ],
-        "C. LEITE": [
+  useEffect(() => {
+    const getMatches = async () => {
+      const res = await fetch(
+        `/api/proxy?url=${encodeURIComponent(
+          'https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams/gsv/schedule'
+        )}`
+      );
 
- { name: "Montpellier", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513303/bs.html" },
-          
-          { name: "Chartres", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513288/bs.html" },
-          
+      const data = await res.json();
 
-          { name: "Basket Landes", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513275/bs.html" },
-            { name: "Roche Vendée", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513252/bs.html" },
-            { name: "Charnay", url: "https://fibalivestats.dcd.shared.geniussports.com/u/FFBB/2513238/bs.html" },
-            // { name: "Match 2", url: "https://example.com/carla2" },
-        ]
-    }; 
+      const now = new Date();
+      const nowMinus5h = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+
+      const parsed = data.events
+      .filter((event: any) => new Date(event.date) > nowMinus5h)
+      .map((event: any) => {
+        const date = new Date(event.date);
     
-    const playerMapping: Record<string, string> = {
-        "Lucile": "L. JEROME",
-        "Carla": "C. LEITE"
-    };
+        const [home, away] = event.competitions[0].competitors;
+        const isGSVHome = home.team.displayName === 'Golden State Valkyries';
     
-    const handleGenerate = async () => {
-        const url = selectedLink || customUrl;
+        const opponentTeam = isGSVHome ? away.team : home.team;
     
-        if (!url) {
-            setModalMessage("Sélectionne un Match 😎");
-            setIsModalOpen(true);
-            return;
-          }
+        return {
+          id: event.id,
+          dayLabel: date.toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+          }).toUpperCase(),
     
-        try {
-            const jsonUrl = url
-                .replace(/\/u\/FFBB\//, '/data/')
-                .replace(/\/bs\.html\/?/, '/')
-                .replace(/\/$/, '') + '/data.json';
+          hourLabel: date.toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
     
-            console.log("URL JSON générée :", jsonUrl);
-    
-            const proxyUrl = `/api/proxy?url=${encodeURIComponent(jsonUrl)}`;
-            const response = await fetch(proxyUrl);
-    
-            if (!response.ok) {
-                console.error("Erreur de récupération :", response.status, await response.text());
-                setModalMessage(`${selectedPlayer === "L. JEROME" ? "Lucile" : "Carla"} s'échauffe 🏀`);
-                setIsWaitingModalOpen(true);
-                return;
-            }
-    
-            const data: MatchData = await response.json();
-            console.log("Données récupérées :", data);
-    
-            // Filtrer par joueur et trier du plus récent au plus ancien
-            const filteredData = data.pbp
-                .filter((action) => action.player === selectedPlayer)
-                .sort((a, b) => b.gt.localeCompare(a.gt));
-    
-            console.log("Actions triées pour", selectedPlayer, ":", filteredData);
-    
-            const csvContent = generateCSV(filteredData);
-            console.log("CSV généré :", csvContent);
-    
-            const rows = csvContent.split('\n').slice(1).map((row) => row.split(','));
-            setCsvData(rows);
-            setCsvGenerated(true);
-        } catch (error) {
-            console.error("Erreur dans generateCsv:", error);
-            alert('Une erreur est survenue lors de la génération du CSV.');
-        }
-    };
+          opponent: opponentTeam.displayName,
+          opponentLogo: opponentTeam.logos?.[0]?.href ?? '', // fallback au cas où
+        };
+      });
     
 
-    const generateCSV = (data: MatchAction[]): string => {
-        let csv = 'Période,Horodatage,Action,Réussite,Score\n';
-        
-        data.forEach((action) => {
-            if (action.player === selectedPlayer) {  // Utilisez le joueur sélectionné
-                csv += `${action.period},${action.gt},${action.actionType},${action.success ? '1' : '0'},${action.s1}-${action.s2}\n`;
-            }
-        });
-    
-        return csv;
+      setMatches(parsed);
+      setLoading(false);
     };
 
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 gap-8 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-        <VideoHeader className="absolute top-0 left-0 w-full" />
-      
-        <main className="flex flex-col items-center gap-6 w-full max-w-lg sm:max-w-2xl md:max-w-4xl">
-          {/* Menus déroulants */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <Select value={selectedPlayer} onValueChange={setSelectedPlayer}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Sélectionne une joueuse" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(playerMapping).map(([displayName, realName]) => (
-                  <SelectItem key={realName} value={realName}>
-                    {displayName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-      
-            <Select value={selectedLink} onValueChange={setSelectedLink}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Sélectionne un match" />
-              </SelectTrigger>
-              <SelectContent>
-                {matchLinksByPlayer[selectedPlayer]?.map((link) => (
-                  <SelectItem key={link.url} value={link.url}>
-                    {link.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-      
-          {/* Champ de saisie du lien personnalisé */}
-          <InputForm 
-            value={customUrl} 
-            onChange={(e) => setCustomUrl(e.target.value)} 
-            onGenerate={handleGenerate} 
-            
-          />
-      
-          {/* Table des stats */}
-          {csvGenerated && (
-            <div className="w-full overflow-x-auto">
-              <MatchTable data={csvData} />
-            </div>
-          )}
-        </main>
-      
-        {/* Modale d'erreur */}
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-  <DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
-    <DialogHeader>
-      <DialogTitle className="text-center mb-4">⚠️ Erreur</DialogTitle>
-      <DialogDescription className="text-center mt-4">{modalMessage}</DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>
+    getMatches();
+  }, []);
 
-<Dialog open={isWaitingModalOpen} onOpenChange={setIsWaitingModalOpen}>
-<DialogContent className="w-[80%] max-w-xs rounded-lg shadow-lg bg-white dark:bg-gray-800 p-6">
-                    <DialogHeader>
-                        <DialogTitle  className="flex items-center justify-center gap-2 mb-2">⏳ Patiente</DialogTitle>
-                        <DialogDescription className="text-center mt-2"   >{modalMessage}</DialogDescription>
-                    </DialogHeader>
-                </DialogContent>
-            </Dialog>
-            
-        <footer className="text-sm text-gray-900 mt-8">
-          <a href="https://www.youtube.com/@fan_lucilej" target="_blank" rel="noopener noreferrer" className="hover:underline">
-            Produit par @fan_carla
-          </a>
-        </footer>
-      </div>
-      
+  if (loading) return <p className="p-4">Les matchs arrivent.....</p>;
 
-    );
+  return (
+    <div className="max-w-2xl mx-auto p-6">
+     <ul className="space-y-4">
+        {matches.map((match) => (
+       <li key={match.id}>
+       <Card className="bg-white shadow-md hover:shadow-lg transition-shadow rounded-2xl ">
+       <CardHeader className="text-center pt-4 pb-4 border-b">
+  <p className="text-xl font-bold capitalize tracking-wide">{match.dayLabel}</p>
+</CardHeader>
+
+         <CardContent className="flex flex-row items-center justify-center gap-12  pb-3 mt-4">
+  {/* Opponent logo + name */}
+  <div className="flex flex-col items-center">
+    <img
+      src={match.opponentLogo}
+      alt={match.opponent}
+      className="w-12 h-12 object-contain"
+    />
+    <p className="text-sm text-gray-900 mt-1">{match.opponent}</p>
+  </div>
+
+  {/* Encadré droit : drapeau + heure */}
+  <div className="flex flex-col items-center justify-between border rounded-lg px-2 py-2 w-17 h-17  shadow-sm">
+    <img
+      src="https://flagcdn.com/w40/fr.png"
+      alt="FR"
+      className="w-5 h-4 mb-2"
+    />
+    <div className="flex items-center gap-1 text-gray-600 text-sm">
+      <Clock className="w-4 h-4" />
+      <span>{match.hourLabel}</span>
+    </div>
+  </div>
+</CardContent>
+       </Card>
+     </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
