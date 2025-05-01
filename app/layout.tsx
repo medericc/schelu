@@ -1,16 +1,16 @@
 import './globals.css';
 
 export const metadata = {
-    title: "Lucile & Carla Stats",
-    description: "Les stats détaillées en direct.",
+    title: "Calendrier de MJ Musa",
+    description: "Les matchs détaillées en direct.",
     icons: {
         icon: "/favicon.ico", // Pour le favicon par défaut
         shortcut: "/favicon.ico", // Pour les navigateurs type iOS
         apple: "/apple-touch-icon.png", // iPhone/iPad
     },
     openGraph: {
-      title: "Lucile & Carla Stats",
-      description: "Les stats détaillées en direct.",
+      title: "Calendrier de MJ Musa",
+      description: "Les matchs détaillées en direct.",
       url: "https://carla-lucile.vercel.app/",
       siteName: "Lucile & Carla Stats",
       images: [
@@ -25,8 +25,8 @@ export const metadata = {
     },
     twitter: {
       card: "summary_large_image", // ✅ Correction ici
-      title: "Lucile & Carla Stats",
-      description: "Les stats détaillées en direct.",
+      title: "Calendrier de MJ Musa",
+      description: "Les matchs détaillées en direct.",
       images: ["https://carla-lucile.vercel.app/preview.jpg"], // Même image que Open Graph
     },
   };
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="fr">
           <body className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
           <header className="bg-gradient-to-r from-purple-900 to-purple-950 text-white p-8 text-4xl font-extrabold text-center shadow-md">
-    MATCH DE CARLA
+    MATCH DE MJ
 </header>
               <main className="container mx-auto mt-4">{children}</main>
           </body>

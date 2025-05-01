@@ -8,19 +8,21 @@ type Match = {
   dayLabel: string;
   hourLabel: string;
   opponent: string;
+  date: Date; // on garde la date d'origine
   opponentLogo: string;
 };
 
 
-export default function ValkyriesSchedulePage() {
+export default function PhoenixSchedulePage() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showLocalTimes, setShowLocalTimes] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const getMatches = async () => {
       const res = await fetch(
         `/api/proxy?url=${encodeURIComponent(
-          'https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams/gsv/schedule'
+          'https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams/phx/schedule'
         )}`
       );
 
@@ -35,26 +37,28 @@ export default function ValkyriesSchedulePage() {
         const date = new Date(event.date);
     
         const [home, away] = event.competitions[0].competitors;
-        const isGSVHome = home.team.displayName === 'Golden State Valkyries';
+        const isGSVHome = home.team.displayName === 'Phoenix Mercury';
     
         const opponentTeam = isGSVHome ? away.team : home.team;
     
         return {
           id: event.id,
-          dayLabel: date.toLocaleDateString('fr-FR', {
+          date: date, // on garde la date d'origine
+          dayLabel: date.toLocaleDateString('en-NG', {
             weekday: 'long',
             day: 'numeric',
             month: 'long',
           }).toUpperCase(),
-    
-          hourLabel: date.toLocaleTimeString('fr-FR', {
+        
+          hourLabel: date.toLocaleTimeString('en-NG', {
             hour: '2-digit',
             minute: '2-digit',
           }),
-    
+        
           opponent: opponentTeam.displayName,
-          opponentLogo: opponentTeam.logos?.[0]?.href ?? '', // fallback au cas où
+          opponentLogo: opponentTeam.logos?.[0]?.href ?? '',
         };
+        
       });
     
 
@@ -88,18 +92,38 @@ export default function ValkyriesSchedulePage() {
     <p className="text-sm text-gray-900 mt-1">{match.opponent}</p>
   </div>
 
-  {/* Encadré droit : drapeau + heure */}
-  <div className="flex flex-col items-center justify-between border rounded-lg px-2 py-2 w-17 h-17  shadow-sm">
+ {/* Encadré droit : drapeau + heure */}
+<div className="flex flex-col items-center justify-between border rounded-lg px-2 py-2 w-17 h-17 shadow-sm">
+  {/* Drapeau seulement si on n'affiche pas l'heure locale */}
+  {!showLocalTimes[match.id] && (
     <img
-      src="https://flagcdn.com/w40/fr.png"
-      alt="FR"
+      src="https://flagcdn.com/w40/ng.png"
+      alt="NG"
       className="w-5 h-4 mb-2"
     />
-    <div className="flex items-center gap-1 text-gray-600 text-sm">
-      <Clock className="w-4 h-4" />
-      <span>{match.hourLabel}</span>
-    </div>
+  )}
+  <div
+    className="flex items-center gap-1 text-gray-600 text-sm cursor-pointer"
+    onClick={() =>
+      setShowLocalTimes((prev) => ({
+        ...prev,
+        [match.id]: !prev[match.id],
+      }))
+    }
+    title="Cliquez pour afficher l'heure locale"
+  >
+    <Clock className="w-4 h-4" />
+    <span>
+      {showLocalTimes[match.id]
+        ? new Date(match.date).toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+          })
+        : match.hourLabel}
+    </span>
   </div>
+</div>
+
 </CardContent>
        </Card>
      </li>
