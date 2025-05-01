@@ -63,14 +63,16 @@ export default function PhoenixSchedulePage() {
             ? Intl.DateTimeFormat().resolvedOptions().timeZone
             : 'Africa/Lagos';
 
-          const dayLabel = new Date(match.date).toLocaleDateString('fr-FR', {
+          const dayLabel = new Date(match.date).toLocaleDateString('en-US', {
+
             weekday: 'long',
             day: 'numeric',
             month: 'long',
             timeZone,
           }).toUpperCase();
 
-          const hourLabel = new Date(match.date).toLocaleTimeString('fr-FR', {
+          const hourLabel = new Date(match.date).toLocaleTimeString('en-US', {
+
             hour: '2-digit',
             minute: '2-digit',
             timeZone,
