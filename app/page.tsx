@@ -9,7 +9,9 @@ type Match = {
   date: Date;
   opponent: string;
   opponentLogo: string;
+  link: string; // 👈 Ajout ici
 };
+
 function formatOpponentName(name: string): string {
   const mapping: { [key: string]: string } = {
     "Los Angeles Sparks": "L.A. Sparks",
@@ -49,9 +51,11 @@ export default function PhoenixSchedulePage() {
         return {
           id: event.id,
           date,
-          opponent: formatOpponentName(opponentTeam.displayName), // 👈 ICI
+          opponent: formatOpponentName(opponentTeam.displayName),
           opponentLogo: opponentTeam.logos?.[0]?.href ?? '',
+          link: event.links?.[0]?.href ?? '#', // 👈 Ajout ici
         };
+        
         });
 
       setMatches(parsed);
@@ -109,7 +113,7 @@ export default function PhoenixSchedulePage() {
                 {dayLabel}
               </p>
             </CardHeader>
-            <CardContent className="flex items-center justify-between pl-6 pr-8 py-4">
+            <CardContent className="flex items-center justify-between pl-6 pr-8 md:pl-16 md:pr-24 lg:pl-18 lg:pr-26 py-4">
               {/* Logo + Name */}
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-md bg-white  flex items-center justify-center overflow-hidden">
@@ -148,10 +152,16 @@ export default function PhoenixSchedulePage() {
               </div>
             </CardContent>
             <CardFooter className="bg-orange-800 p-2 rounded-b-xl flex justify-center">
-  <p className="text-base font-semibold text-white tracking-wide">
+  <a
+    href={match.link} // Assure-toi que match.link contient une URL valide
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-base font-semibold text-white tracking-wide hover:underline"
+  >
     GAME AVAILABLE HERE
-  </p>
+  </a>
 </CardFooter>
+
 
 
           </Card>
