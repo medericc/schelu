@@ -15,8 +15,9 @@ type Match = {
 function formatOpponentName(name: string): string {
   const mapping: { [key: string]: string } = {
     "Los Angeles Sparks": "L.A. Sparks",
-    "Washington Mystics": "Washingtons",
+    "Washington Mystics": "Washington",
     "New York Liberty": "NY Liberty",
+    "Phoenix Mercury": "Phoenix",
     "Golden State Valkyries": "Golden State",
   };
   return mapping[name] || name;
@@ -76,11 +77,11 @@ export default function PhoenixSchedulePage() {
 
     const timeZone = isLocal
       ? Intl.DateTimeFormat().resolvedOptions().timeZone
-      : 'Africa/Lagos';
+      : 'Europe/Paris';
     
     const locale = isLocal
       ? Intl.DateTimeFormat().resolvedOptions().locale
-      : 'en-NG';
+      : 'en-FR';
     
     const use12HourFormat = ['en-US', 'en-GB'].includes(locale);
     
@@ -103,7 +104,7 @@ export default function PhoenixSchedulePage() {
     // Drapeau
     const flagCode = isLocal
       ? locale.split('-')[1]?.toLowerCase() || 'us'
-      : 'ng';
+      : 'fr';
     
       return (
         <li key={match.id}>
