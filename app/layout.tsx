@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
       <html lang="fr">
           <body className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
-          <header className="bg-gradient-to-r from-fuchsia-900 to-rose-900
+          <header className="bg-gradient-to-r from-orange-900 to-orange-950
  text-white p-8 text-4xl font-extrabold text-center shadow-md">
     MATCH DE MJ
 </header>
