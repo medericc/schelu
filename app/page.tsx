@@ -149,7 +149,7 @@ export default function PhoenixSchedulePage() {
             </CardContent>
             <CardFooter className="bg-orange-800 p-2 rounded-b-xl flex justify-center">
   <p className="text-base font-semibold text-white tracking-wide">
-    MATCH DISPONIBLE ICI
+    GAME AVAILABLE HERE
   </p>
 </CardFooter>
 
