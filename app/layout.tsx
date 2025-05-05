@@ -1,5 +1,5 @@
 import './globals.css';
-
+import { Analytics } from "@vercel/analytics/react";
 export const metadata = {
     title: "Calendrier de MJ Musa",
     description: "Le calendrier des matchs de Musa.",
@@ -43,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     MATCH DE MJ
 </header>
               <main className="container mx-auto mt-4">{children}</main>
+              <Analytics />
           </body>
       </html>
   );
