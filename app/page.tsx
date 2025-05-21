@@ -299,7 +299,7 @@ export default function PhoenixSchedulePage() {
     {/* Floating Button */}
     <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-6 right-6 bg-teal-700 hover:bg-teal-800 text-white rounded-full p-4 shadow-lg z-50"
+        className="fixed bottom-6 right-6 bg-orange-700 hover:bg-orange-800 text-white rounded-full p-4 shadow-lg z-50"
         title="Ajouter au calendrier"
       >
         <CalendarPlus className="w-6 h-6" />
