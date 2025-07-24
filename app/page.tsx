@@ -278,7 +278,7 @@ export default function PhoenixSchedulePage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-orange-800 p-2 rounded-b-xl flex justify-center">
+            <CardFooter className="bg-purple-800 p-2 rounded-b-xl flex justify-center">
   <a
     href={match.link} // Assure-toi que match.link contient une URL valide
     target="_blank"
@@ -299,7 +299,7 @@ export default function PhoenixSchedulePage() {
     {/* Floating Button */}
     <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-6 right-6 bg-orange-700 hover:bg-orange-800 text-white rounded-full p-4 shadow-lg z-50"
+        className="fixed bottom-6 right-6 bg-purple-700 hover:bg-purple-800 text-white rounded-full p-4 shadow-lg z-50"
         title="Ajouter au calendrier"
       >
         <CalendarPlus className="w-6 h-6" />
