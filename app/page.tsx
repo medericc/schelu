@@ -162,11 +162,18 @@ export default function PhoenixSchedulePage() {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-72px)] -mt-16">
   <div className="relative w-72 h-80 overflow-hidden">
-          <img
-            src="/loader.jpg"
-            alt="Chargement des matchs"
-            className="absolute top-0 left-0 w-full h-full object-contain object-center animate-reveal-image"
-          />
+         <img
+  src="/loader.jpg"
+  alt="Chargement des matchs"
+  className="absolute top-0 left-0 w-full h-full object-contain object-center"
+  style={{ 
+    clipPath: 'inset(0 100% 0 0)', 
+    transform: 'scale(1)', 
+    opacity: 1, 
+    animation: 'reveal-image 2.5s ease-out forwards' 
+  }}
+/>
+
         </div>
         <style jsx>{`
           @keyframes reveal-image {
