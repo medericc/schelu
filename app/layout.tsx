@@ -13,11 +13,11 @@ export const metadata = {
   openGraph: {
     title: "Calendrier de Lucile",
     description: "Le calendrier des matchs de Lucile.",
-    url: "https://mj-musa-schedule.vercel.app/",
+    url: "https://lucile-schedule.vercel.app/",
     siteName: "Lucile Schedule",
     images: [
       {
-        url: "https://mj-musa-schedule.vercel.app/preview.jpg",
+        url: "https://lucile-schedule.vercel.app/preview.jpg",
         width: 1200,
         height: 630,
         alt: "Lucile Schedule",
@@ -29,7 +29,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Calendrier de Lucile",
     description: "Le calendrier des matchs de Lucile.",
-    images: ["https://mj-musa-schedule.vercel.app/preview.jpg"],
+    images: ["https://lucile-schedule.vercel.app/preview.jpg"],
   },
 };
 
