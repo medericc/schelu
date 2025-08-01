@@ -35,7 +35,7 @@ const translations = {
       "Si pas déjà importer :",
       "1. Ouvrez l'application Fichiers",
       "2. Rendez-vous dans le dossier Téléchargements",
-      "3. Appuyez sur le fichier liberty_matchs.ics",
+      "3. Appuyez sur le fichier lucile_matchs_2526.ics",
       "4. Choisissez Ajouter à Calendrier si proposé",
       "📅 Tous les matchs de Lucile sont maintenant ajoutés à votre calendrier !",
     ],
