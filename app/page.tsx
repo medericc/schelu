@@ -26,7 +26,7 @@ const translations = {
       "1. Ouvrez Google Calendar",
       "2. Cliquez sur la roue crantée en haut à droite → Paramètres",
       "3. Allez dans Importer et exporter",
-      "4. Sélectionnez le fichier téléchargé : liberty_matchs.ics",
+      "4. Sélectionnez le fichier téléchargé : lucile_matchs_2526.ics",
       "5. Importez-le dans le calendrier de votre choix",
       "🎉 Tous les matchs de Lucile sont maintenant dans votre agenda !",
     ],
