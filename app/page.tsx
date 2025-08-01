@@ -108,7 +108,7 @@ export default function PhoenixSchedulePage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'lfb_matchs.ics';
+    a.download = 'lucile_matchs_2526.ics';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
