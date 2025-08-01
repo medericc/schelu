@@ -2,14 +2,14 @@ import { Match } from "@/types/match";
 
 export const lfbMatches: Match[] = [
   {
-    id: "j1",
+    id: "cj1",
     date: new Date("2025-09-27T20:00:00"),
     opponent: "Basket Landes",
     opponentLogo: "/landes.webp",
     link: "",
   },
   {
-    id: "j1",
+    id: "j11",
     date: new Date("2025-10-01T20:00:00"),
     opponent: "Montpellier",
     opponentLogo: "/lattes.webp",
@@ -23,7 +23,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
   {
-    id: "jj2",
+    id: "ajj2",
     date: new Date("2025-10-08T18:00:00"),
     opponent: "Sopron",
     opponentLogo: "/sopron.webp",
@@ -37,7 +37,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
   {
-    id: "j33",
+    id: "aj33",
     date: new Date("2025-10-15T19:00:00"),
     opponent: "Attente",
     opponentLogo: "",
@@ -51,7 +51,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
     {
-    id: "j44",
+    id: "aj44",
     date: new Date("2025-10-22T19:00:00"),
     opponent: "Schio",
     opponentLogo: "/schio.webp",
@@ -64,15 +64,9 @@ export const lfbMatches: Match[] = [
     opponentLogo: "/angers.webp",
     link: "",
   },
+  
    {
-    id: "j55",
-    date: new Date("2025-10-22T20:00:00"),
-    opponent: "Schio",
-    opponentLogo: "/schio.webp",
-    link: "",
-  },
-   {
-    id: "j66",
+    id: "aj66",
     date: new Date("2025-10-29T19:00:00"),
     opponent: "Sopron",
     opponentLogo: "/sopron.webp",
@@ -86,7 +80,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
     {
-    id: "j77",
+    id: "aj77",
     date: new Date("2025-11-04T19:00:00"),
     opponent: "Attente",
     opponentLogo: "",
@@ -100,7 +94,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
    {
-    id: "j88",
+    id: "aj88",
     date: new Date("2025-11-26T20:00:00"),
     opponent: "Schio",
     opponentLogo: "/schio.webp",

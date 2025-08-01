@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#ff6600" />
       </Head>
       <body className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
-        <header className="bg-gradient-to-r from-purple-800 to-purple-900 text-white p-8 text-4xl font-extrabold text-center shadow-md">
+        <header className="bg-gradient-to-r from-red-800 to-red-900 text-white p-8 text-4xl font-extrabold text-center shadow-md">
           MATCH DE LUCILE
         </header>
         <main className="container mx-auto mt-4">{children}</main>

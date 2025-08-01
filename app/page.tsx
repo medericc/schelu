@@ -217,11 +217,18 @@ export default function PhoenixSchedulePage() {
 
               {/* Time box */}
               <div className="flex flex-col items-center text-sm text-gray-700 mt-1">
-              <img
-  src="/lfb.png"
-  alt="LFB Logo"
+             <img
+  src={
+    match.id.startsWith("c")
+      ? "/mc.png"
+      : match.id.startsWith("a")
+      ? "/ewl.png"
+      : "/lfb.png"
+  }
+  alt="Logo Compétition"
   className="w-5 h-5 mb-1"
 />
+
 
                 <div
                   className="flex items-center gap-1 cursor-pointer"
@@ -239,7 +246,7 @@ export default function PhoenixSchedulePage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-purple-800 p-2 rounded-b-xl flex justify-center">
+            <CardFooter className="bg-red-800 p-2 rounded-b-xl flex justify-center">
   <a
     href={match.link} // Assure-toi que match.link contient une URL valide
     target="_blank"
@@ -260,7 +267,7 @@ export default function PhoenixSchedulePage() {
     {/* Floating Button */}
     <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-6 right-6 bg-purple-700 hover:bg-purple-800 text-white rounded-full p-4 shadow-lg z-50"
+        className="fixed bottom-6 right-6 bg-red-700 hover:bg-red-800 text-white rounded-full p-4 shadow-lg z-50"
         title="Ajouter au calendrier"
       >
         <CalendarPlus className="w-6 h-6" />
@@ -311,7 +318,7 @@ export default function PhoenixSchedulePage() {
               setIsModalOpen(false);
               setShowGoogleInstructions(false);
             }}
-            className="mt-6 text-sm text-purple-700 font-semibold hover:underline"
+            className="mt-6 text-sm text-red-700 font-semibold hover:underline"
           >
             {t.close}
           </button>
@@ -328,7 +335,7 @@ export default function PhoenixSchedulePage() {
               setIsModalOpen(false);
               setShowiOSInstructions(false);
             }}
-            className="mt-6 text-sm text-purple-700 font-semibold hover:underline"
+            className="mt-6 text-sm text-red-700 font-semibold hover:underline"
           >
             {t.close}
           </button>
