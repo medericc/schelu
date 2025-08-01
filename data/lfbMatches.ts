@@ -137,14 +137,14 @@ export const lfbMatches: Match[] = [
   },
     {
     id: "j13",
-    date: new Date("2026-01-10T19:00:00"),
+    date: new Date("2026-01-07T19:00:00"),
     opponent: "Landerneau",
     opponentLogo: "/landerneau.webp",
     link: "",
   },
   {
     id: "j14",
-    date: new Date("2026-01-17T20:00:00"),
+    date: new Date("2026-01-10T20:00:00"),
     opponent: "Bourges",
     opponentLogo: "/bourges.webp",
     link: "",
@@ -179,7 +179,7 @@ export const lfbMatches: Match[] = [
   },
   {
     id: "j19",
-    date: new Date("2026-02-21T15:15:00"),
+    date: new Date("2026-02-22T15:15:00"),
     opponent: "Chartres",
     opponentLogo: "/chartres.webp",
     link: "",
@@ -193,7 +193,7 @@ export const lfbMatches: Match[] = [
   },
   {
     id: "j21",
-    date: new Date("2026-03-16T20:00:00"),
+    date: new Date("2026-03-24T20:00:00"),
     opponent: "Roche Vendée",
     opponentLogo: "/roche.webp",
     link: "",
