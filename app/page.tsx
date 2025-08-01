@@ -72,6 +72,7 @@ export default function PhoenixSchedulePage() {
       .map(match => ({
         ...match,
         opponent: formatOpponentName(match.opponent),
+        link: match.link?.startsWith('http') ? match.link : `https://${match.link || 'youtube.com'}`,
   // opponentLogo: teamLogos[match.opponent] ?? '',
       }));
 
@@ -92,7 +93,8 @@ export default function PhoenixSchedulePage() {
     title: `Match vs ${match.opponent}`,
     description: `Match contre ${match.opponent}`,
     location: 'Match LFB',
-    url: match.link,
+    url: match.link?.startsWith('http') ? match.link : `https://${match.link || 'example.com'}`,
+
   }));
 
   console.log("Events to create:", events);
