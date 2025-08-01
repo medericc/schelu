@@ -1,0 +1,16 @@
+[
+  {
+    "id": "match-1",
+    "date": "2025-08-12T18:00:00Z",
+    "opponent": "New York Liberty",
+    "opponentLogo": "/logos/ny_liberty.png",
+    "link": "https://www.wnba.com/game/12345"
+  },
+  {
+    "id": "match-2",
+    "date": "2025-08-18T20:30:00Z",
+    "opponent": "Los Angeles Sparks",
+    "opponentLogo": "/logos/la_sparks.png",
+    "link": "https://www.wnba.com/game/67890"
+  }
+]

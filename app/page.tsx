@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Clock, CalendarPlus } from "lucide-react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { createEvents } from "ics";
+import { lfbMatches } from "@/data/lfbMatches";
 
 type Match = {
   id: string;
@@ -39,34 +40,9 @@ const translations = {
       "📅 Tous les matchs sont maintenant ajoutés à votre calendrier !",
     ],
     close: "Fermer",
-  },
-  en: {
-    addCalendarTitle: "Add all matches to your calendar?",
-    appleOutlook: "📅 Apple / Outlook (.ics)",
-    googleCalendar: "📆 Google Calendar",
-    cancel: "Cancel",
-    googleInstructions: [
-      "✅ The file has been downloaded!",
-      "Here's how to import it into Google Calendar:",
-      "1. Open Google Calendar",
-      "2. Click the gear icon at the top right → Settings",
-      "3. Go to Import and Export",
-      "4. Select the downloaded file: liberty_matchs.ics",
-      "5. Import it into the calendar of your choice",
-      "🎉 All MJ matches are now in your agenda!",
-    ],
-    iosInstructions: [
-      "✅ The file has been downloaded!",
-      "If not already imported:",
-      "1. Open the Files app",
-      "2. Go to the Downloads folder",
-      "3. Tap on the liberty_matchs.ics file",
-      "4. Choose Add to Calendar if prompted",
-      "📅 All matches are now added to your calendar!",
-    ],
-    close: "Close",
-  },
+  }
 };
+
 function formatOpponentName(name: string): string {
   const mapping: { [key: string]: string } = {
     "Los Angeles Sparks": "L.A. Sparks",
@@ -81,48 +57,26 @@ function formatOpponentName(name: string): string {
 export default function PhoenixSchedulePage() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
-  const [language, setLanguage] = useState<"fr" | "en">("en");
+
   const [showLocalTimes, setShowLocalTimes] = useState<{ [key: string]: boolean }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showGoogleInstructions, setShowGoogleInstructions] = useState(false);
- const [showiOSInstructions, setShowiOSInstructions] = useState(false); 
-  
+  const [showiOSInstructions, setShowiOSInstructions] = useState(false); 
 
   useEffect(() => {
-    const getMatches = async () => {
-      const res = await fetch(
-        `/api/proxy?url=${encodeURIComponent(
-          'https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams/phx/schedule'
-        )}`
-      );
+    const now = new Date();
+    const nowMinus5h = new Date(now.getTime() - 5 * 60 * 60 * 1000);
 
-      const data = await res.json();
+    const filtered = lfbMatches
+      .filter(match => match.date > nowMinus5h)
+      .map(match => ({
+        ...match,
+        opponent: formatOpponentName(match.opponent),
+  // opponentLogo: teamLogos[match.opponent] ?? '',
+      }));
 
-      const now = new Date();
-      const nowMinus5h = new Date(now.getTime() - 5 * 60 * 60 * 1000);
-
-      const parsed = data.events
-      .filter((event: any) => new Date(event.date) > nowMinus5h)
-      .map((event: any) => {
-        const date = new Date(event.date);
-        const [home, away] = event.competitions[0].competitors;
-        const isGSVHome = home.team.displayName === 'Phoenix Mercury';
-        const opponentTeam = isGSVHome ? away.team : home.team;
-    
-        return {
-          id: event.id,
-          date,
-          opponent: formatOpponentName(opponentTeam.displayName),
-          opponentLogo: opponentTeam.logos?.[0]?.href ?? '',
-          link: event.links?.[0]?.href ?? '#',
-        };
-      });
-
-    setMatches(parsed);
+    setMatches(filtered);
     setLoading(false);
-  };
-
-    getMatches();
   }, []);
 
   const generateICS = () => {
@@ -135,9 +89,9 @@ export default function PhoenixSchedulePage() {
         match.date.getMinutes(),
       ] as [number, number, number, number, number],
       duration: { hours: 2 },
-      title: `Phoenix Mercury vs ${match.opponent}`,
+      title: `Match vs ${match.opponent}`,
       description: `Match contre ${match.opponent}`,
-      location: 'Match WNBA',
+      location: 'Match LFB',
       url: match.link,
     }));
 
@@ -148,7 +102,7 @@ export default function PhoenixSchedulePage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'phoenix_matchs.ics';
+      a.download = 'lfb_matchs.ics';
       a.click();
     }
   };
@@ -196,7 +150,7 @@ export default function PhoenixSchedulePage() {
       </div>
     );
   }
-  const t = translations[language];
+  const t = translations.fr;
   const handleGoogleCalendarImport = () => {
     generateICS();
     setShowGoogleInstructions(true);
@@ -205,26 +159,25 @@ export default function PhoenixSchedulePage() {
   return (
     <div className="max-w-2xl mx-auto p-6">
   <ul className="space-y-4">
-    {matches.map((match) => {
-    const isLocal = showLocalTimes[match.id];
+     {matches.map((match) => {
+      const isLocal = showLocalTimes[match.id];
 
-    const timeZone = isLocal
-      ? Intl.DateTimeFormat().resolvedOptions().timeZone
-      : 'Europe/Paris';
-    
-    const locale = isLocal
-      ? Intl.DateTimeFormat().resolvedOptions().locale
-      : 'en-FR';
-    
-    const use12HourFormat = ['en-US', 'en-GB'].includes(locale);
-    
-    // Libellé jour
-    const dayLabel = new Date(match.date).toLocaleDateString(locale, {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      timeZone,
-    }).toUpperCase();
+      const timeZone = isLocal
+        ? Intl.DateTimeFormat().resolvedOptions().timeZone
+        : 'Europe/Paris';
+
+     const locale = "fr-FR";
+
+
+      const use12HourFormat = ['en-US', 'en-GB'].includes(locale);
+
+      // Libellé du jour (ex : VENDREDI 15 NOVEMBRE)
+      const dayLabel = new Date(match.date).toLocaleDateString(locale, {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone,
+      }).toUpperCase();
     
     // Heure formatée selon locale
     const hourLabel = new Date(match.date).toLocaleTimeString(locale, {
@@ -264,11 +217,12 @@ export default function PhoenixSchedulePage() {
 
               {/* Time box */}
               <div className="flex flex-col items-center text-sm text-gray-700 mt-1">
-                <img
-                  src={`https://flagcdn.com/w40/${flagCode}.png`}
-                  alt={flagCode.toUpperCase()}
-                  className="w-5 h-4 mb-1"
-                />
+              <img
+  src="/lfb.png"
+  alt="LFB Logo"
+  className="w-5 h-5 mb-1"
+/>
+
                 <div
                   className="flex items-center gap-1 cursor-pointer"
                   onClick={() =>
@@ -292,7 +246,7 @@ export default function PhoenixSchedulePage() {
     rel="noopener noreferrer"
     className="text-base font-semibold text-white tracking-wide hover:underline"
   >
-    GAME AVAILABLE HERE
+    MATCH DISPONIBLE ICI
   </a>
 </CardFooter>
 
@@ -317,27 +271,7 @@ export default function PhoenixSchedulePage() {
   <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
   <div className="fixed inset-0 flex items-center justify-center p-4">
     <DialogPanel className="bg-white rounded-xl p-6 pt-12 pb-4 max-w-sm mx-auto shadow-xl relative">
-      {/* Language Switcher */}
-      <div className="absolute top-3 right-3 flex space-x-1">
-        <button
-          onClick={() => setLanguage("fr")}
-          className={`px-2 py-1 rounded-full text-sm border ${
-            language === "fr" ?  "bg-white border-gray-300" : "bg-gray-300 border-gray-500"
-          }`}
-          title="Passer en français"
-        >
-          🇫🇷
-        </button>
-        <button
-          onClick={() => setLanguage("en")}
-          className={`px-2 py-1 rounded-full text-sm border ${
-            language === "en" ? "bg-white border-gray-300" : "bg-gray-300 border-gray-500"
-          }`}
-          title="Switch to English"
-        >
-          🇺🇸
-        </button>
-      </div>
+   
 
       {/* Modal Title */}
       <DialogTitle className="text-xl font-bold mb-2 text-center">

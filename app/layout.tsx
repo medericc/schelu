@@ -3,32 +3,32 @@ import { Analytics } from "@vercel/analytics/react";
 import Head from 'next/head';
 
 export const metadata = {
-  title: "Calendrier de Jade la Béarnaise",
-  description: "Le calendrier des matchs de Jade.",
+  title: "Calendrier de Lucile",
+  description: "Le calendrier des matchs de Lucile.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "Calendrier de Jade la Béarnaise",
-    description: "Le calendrier des matchs de Jade.",
+    title: "Calendrier de Lucile",
+    description: "Le calendrier des matchs de Lucile.",
     url: "https://mj-musa-schedule.vercel.app/",
-    siteName: "Jade la Béarnaise Schedule",
+    siteName: "Lucile Schedule",
     images: [
       {
         url: "https://mj-musa-schedule.vercel.app/preview.jpg",
         width: 1200,
         height: 630,
-        alt: "Jade la Béarnaise Schedule",
+        alt: "Lucile Schedule",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Calendrier de Jade la Béarnaise",
-    description: "Le calendrier des matchs de Jade.",
+    title: "Calendrier de Lucile",
+    description: "Le calendrier des matchs de Lucile.",
     images: ["https://mj-musa-schedule.vercel.app/preview.jpg"],
   },
 };
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </Head>
       <body className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
         <header className="bg-gradient-to-r from-purple-800 to-purple-900 text-white p-8 text-4xl font-extrabold text-center shadow-md">
-          MATCH DE JADE
+          MATCH DE LUCILE
         </header>
         <main className="container mx-auto mt-4">{children}</main>
         <Analytics />
