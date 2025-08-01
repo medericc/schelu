@@ -40,7 +40,7 @@ export const lfbMatches: Match[] = [
     id: "aj33",
     date: new Date("2025-10-15T19:00:00"),
     opponent: "Attente",
-    opponentLogo: "",
+    opponentLogo: "/osp.png",
     link: "",
   },
   {
@@ -83,7 +83,7 @@ export const lfbMatches: Match[] = [
     id: "aj77",
     date: new Date("2025-11-04T19:00:00"),
     opponent: "Attente",
-    opponentLogo: "",
+    opponentLogo: "/osp.png",
     link: "",
   },
   {
