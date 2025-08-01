@@ -226,7 +226,7 @@ export default function PhoenixSchedulePage() {
       : "/lfb.png"
   }
   alt="Logo Compétition"
-  className="w-6 h-5 mb-1"
+  className="w-7 h-6 mb-2"
 />
 
 
