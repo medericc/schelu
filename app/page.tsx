@@ -80,22 +80,30 @@ export default function PhoenixSchedulePage() {
     setLoading(false);
   }, []);
 
- const generateICS = () => {
-  const events = matches.map((match) => ({
-    start: [
-      match.date.getFullYear(),
-      match.date.getMonth() + 1,
-      match.date.getDate(),
-      match.date.getHours(),
-      match.date.getMinutes(),
-    ] as [number, number, number, number, number],
-    duration: { hours: 2 },
-    title: `Match vs ${match.opponent}`,
-    description: `Match contre ${match.opponent}`,
-    location: 'Match LFB',
-    url: match.link?.startsWith('http') ? match.link : `https://${match.link || 'example.com'}`,
+const generateICS = () => {
+  const events = matches.map((match) => {
+    let location = 'Match LFB';
+    if (match.id.startsWith('c')) {
+      location = 'Supercup';
+    } else if (match.id.startsWith('a')) {
+      location = 'Euroligue';
+    }
 
-  }));
+    return {
+      start: [
+        match.date.getFullYear(),
+        match.date.getMonth() + 1,
+        match.date.getDate(),
+        match.date.getHours(),
+        match.date.getMinutes(),
+      ] as [number, number, number, number, number],
+      duration: { hours: 2 },
+      title: `Match vs ${match.opponent}`,
+      description: `Match contre ${match.opponent}`,
+      location,
+      url: match.link?.startsWith('http') ? match.link : `https://${match.link || 'example.com'}`,
+    };
+  });
 
   console.log("Events to create:", events);
 
@@ -116,6 +124,7 @@ export default function PhoenixSchedulePage() {
     console.error("Erreur ICS:", error);
   }
 };
+
 
   const handleAppleOutlookImport = () => {
     generateICS(); // Télécharge le fichier .ics
