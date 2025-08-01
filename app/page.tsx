@@ -28,7 +28,7 @@ const translations = {
       "3. Allez dans Importer et exporter",
       "4. Sélectionnez le fichier téléchargé : liberty_matchs.ics",
       "5. Importez-le dans le calendrier de votre choix",
-      "🎉 Tous les matchs de MJ sont maintenant dans votre agenda !",
+      "🎉 Tous les matchs de Lucile sont maintenant dans votre agenda !",
     ],
     iosInstructions: [
       "✅ Le fichier a été téléchargé !",
@@ -37,7 +37,7 @@ const translations = {
       "2. Rendez-vous dans le dossier Téléchargements",
       "3. Appuyez sur le fichier liberty_matchs.ics",
       "4. Choisissez Ajouter à Calendrier si proposé",
-      "📅 Tous les matchs sont maintenant ajoutés à votre calendrier !",
+      "📅 Tous les matchs de Lucile sont maintenant ajoutés à votre calendrier !",
     ],
     close: "Fermer",
   }
@@ -79,33 +79,42 @@ export default function PhoenixSchedulePage() {
     setLoading(false);
   }, []);
 
-  const generateICS = () => {
-    const events = matches.map((match) => ({
-      start: [
-        match.date.getFullYear(),
-        match.date.getMonth() + 1,
-        match.date.getDate(),
-        match.date.getHours(),
-        match.date.getMinutes(),
-      ] as [number, number, number, number, number],
-      duration: { hours: 2 },
-      title: `Match vs ${match.opponent}`,
-      description: `Match contre ${match.opponent}`,
-      location: 'Match LFB',
-      url: match.link,
-    }));
+ const generateICS = () => {
+  const events = matches.map((match) => ({
+    start: [
+      match.date.getFullYear(),
+      match.date.getMonth() + 1,
+      match.date.getDate(),
+      match.date.getHours(),
+      match.date.getMinutes(),
+    ] as [number, number, number, number, number],
+    duration: { hours: 2 },
+    title: `Match vs ${match.opponent}`,
+    description: `Match contre ${match.opponent}`,
+    location: 'Match LFB',
+    url: match.link,
+  }));
 
-    const { error, value } = createEvents(events as any);
+  console.log("Events to create:", events);
 
-    if (!error && value) {
-      const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'lfb_matchs.ics';
-      a.click();
-    }
-  };
+  const { error, value } = createEvents(events as any);
+
+  console.log("createEvents result:", { error, value });
+
+  if (!error && value) {
+    const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'lfb_matchs.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    console.error("Erreur ICS:", error);
+  }
+};
+
   const handleAppleOutlookImport = () => {
     generateICS(); // Télécharge le fichier .ics
     setShowiOSInstructions(true); // Affiche les instructions iOS

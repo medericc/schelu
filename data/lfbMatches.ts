@@ -9,7 +9,7 @@ export const lfbMatches: Match[] = [
     link: "",
   },
   {
-    id: "j11",
+    id: "j101",
     date: new Date("2025-10-01T20:00:00"),
     opponent: "Montpellier",
     opponentLogo: "/lattes.webp",
